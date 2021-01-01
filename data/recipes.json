@@ -1,0 +1,30 @@
+{
+  "recipes": [
+    {
+      "title": "hotdog",
+      "keywords": [
+        "pasta",
+        "penne"
+      ],
+      "id": 1,
+      "photo": "https://source.unsplash.com/1600x900/?pasta,penne"
+    },
+    {
+      "title": "pizza carbonara",
+      "keywords": [
+        "pizza",
+        "cheese"
+      ],
+      "id": 2,
+      "photo": "https://source.unsplash.com/1600x900/?pizza,cheese"
+    },
+    {
+      "title": "roast beef",
+      "keywords": [
+        "meat"
+      ],
+      "id": 3,
+      "photo": "https://source.unsplash.com/1600x900/?meat"
+    }
+  ]
+}
