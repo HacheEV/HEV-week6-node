@@ -2,7 +2,7 @@ const Joi = require('joi')
 const {recipes} = require('../../data/recipes.json')
 const {findAllRecipes, findRecipeId, saveRecipe} = require('../model/recipe_model');
 
-function getRecipePage({page, size}){
+async function getRecipePage({page, size}){
     const recipes = findAllRecipes();
     const start = (page-1) * size;
     const end = start + size;
@@ -16,10 +16,10 @@ function getRecipePage({page, size}){
     
 
 }
-function getAllRecipes(){
+async function getAllRecipes(){
     return findAllRecipes();
 }
-function getRecipe(id){
+async function getRecipe(id){
     return findRecipeId(id);
 }
 function createRecipe(recipe){

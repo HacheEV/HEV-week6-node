@@ -6,9 +6,9 @@ const {validateRecipe} = require('../services/recipe_service');
 const {createRecipe} = require('../services/recipe_service');
 const router = Router();
 
-router.get('/', pagination, (req, res) => {
+router.get('/', pagination, async (req, res) => {
     if(req.query.page){
-        const recipes = getRecipePage(req.query);
+        const recipes = await getRecipePage(req.query);
         res.status(200).json(recipes);
     }else{
         const recipes = getAllRecipes();
@@ -16,9 +16,9 @@ router.get('/', pagination, (req, res) => {
     }
   
 })
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
     
-    const recipe = getRecipe(req.params.id);
+    const recipe = await getRecipe(req.params.id);
     res.status(200).json(recipe);
 })
 
