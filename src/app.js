@@ -7,7 +7,7 @@ const app = express()
 const port = process.env.PORT || 8000
 
 app.use(cors({
-    origin: 'https://nuclio-recipes.herokuapp.com/',
+    origin: '*',
     optionsSuccessStatus: 200 
 }))
 app.use(express.json()) 
