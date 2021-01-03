@@ -3,7 +3,7 @@ const {recipes} = require('../../data/recipes.json')
 const {findAllRecipes, findRecipeId, saveRecipe} = require('../model/recipe_model');
 
 async function getRecipePage({page, size}){
-    const recipes = findAllRecipes();
+    const recipes = await findAllRecipes();
     const start = (page-1) * size;
     const end = start + size;
 
@@ -17,10 +17,10 @@ async function getRecipePage({page, size}){
 
 }
 async function getAllRecipes(){
-    return findAllRecipes();
+    return await findAllRecipes();
 }
 async function getRecipe(id){
-    return findRecipeId(id);
+    return await findRecipeId(id);
 }
 function createRecipe(recipe){
     return saveRecipe(recipe);
