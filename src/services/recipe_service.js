@@ -1,6 +1,7 @@
 const Joi = require('joi')
 const {recipes} = require('../../data/recipes.json')
 const {findAllRecipes, findRecipeId, saveRecipe} = require('../model/recipe_model');
+const PhotoUrl = require ('../services/create_photo');
 
 function getRecipePage({page, size}){
     const recipes = findAllRecipes();
@@ -22,20 +23,20 @@ function getAllRecipes(){
 function getRecipe(id){
     return findRecipeId(id);
 }
-function createRecipe(recipe){
+async function createRecipe(recipe){
+    if(!recipe.photo){
+        recipe.photo = await PhotoUrl.viewPhoto({keywords: recipe.keywords})
+    }
     return saveRecipe(recipe);
    
 }
 
 function validateRecipe(recipe){
-    const recipesId = recipes.length + 1;
-    const photo = recipe.keywords.join(",");
     
     const schema = Joi.object({
-        id: Joi.number().default(recipesId),
         title: Joi.string().min(3).max(30).required(),
         keywords: Joi.array(),
-        photo: Joi.string().default(`https://source.unsplash.com/1600x900/?${photo}`)
+        photo: Joi.string().uri().optional(),
         })
         
 

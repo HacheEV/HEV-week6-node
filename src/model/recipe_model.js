@@ -1,4 +1,5 @@
 const low = require('lowdb')
+const { nanoid } = require("nanoid")
 const FileSync = require('lowdb/adapters/FileSync')
 
 const adapter = new FileSync('data/recipes.json');
@@ -14,8 +15,12 @@ function findRecipeId(id){
     return db.get('recipes').find({id: Number(id)}).value()
 }
 function saveRecipe(recipe){
-    db.get('recipes').push(recipe).write()
-    return recipe;
+    const recipeID = {
+        id: nanoid(),
+        ...recipe,
+    }
+    db.get('recipes').push(recipeID).write()
+    return recipeID;
 }
 
 module.exports = {
