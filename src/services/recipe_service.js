@@ -1,6 +1,6 @@
 const Joi = require('joi')
 const {recipes} = require('../../data/recipes.json')
-const {findAllRecipes, findRecipeId, saveRecipe} = require('../model/recipe_model');
+const {findAllRecipes, findRecipeId, saveRecipe, removeRecipe} = require('../model/recipe_model');
 const PhotoUrl = require ('../services/create_photo');
 
 function getRecipePage({page, size}){
@@ -30,6 +30,14 @@ async function createRecipe(recipe){
     return saveRecipe(recipe);
    
 }
+function removeRecipe(id) {
+    const recipe = findRecipeId({ id })
+    if (!recipe) {
+      return false
+    }
+    removeRecipe(id)
+    return true
+  }
 
 function validateRecipe(recipe){
     
@@ -44,10 +52,12 @@ function validateRecipe(recipe){
     return {error, value};
 }
 
+
 module.exports = {
     getAllRecipes,
     getRecipePage, 
     validateRecipe, 
     getRecipe,
-    createRecipe
+    createRecipe, 
+    removeRecipe
 };
