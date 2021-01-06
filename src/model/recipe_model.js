@@ -22,9 +22,24 @@ function saveRecipe(recipe){
     db.get('recipes').push(recipeID).write()
     return recipeID;
 }
+function updateRecipe(id, fields) {
+    const recipe = db.get("recipes").find({ id }).value()
+    const newRecipe = {
+      ...recipe,
+      ...fields,
+    }
+    db.get("recipes").find({ id }).assign(newRecipe).write()
+    return newRecipe
+  }
+  
+  function removeRecipe(id) {
+    db.get("recipes").remove({ id }).write()
+  }
 
 module.exports = {
     findAllRecipes,
     findRecipeId,
-    saveRecipe
+    saveRecipe, 
+    updateRecipe, 
+    removeRecipe
 };
