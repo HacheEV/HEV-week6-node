@@ -20,8 +20,8 @@ function getRecipePage({page, size}){
 function getAllRecipes(){
     return findAllRecipes();
 }
-function getRecipe(id){
-    return findRecipeId(id);
+async function getRecipe(id){
+    return await findRecipeId(id);
 }
 async function createRecipe(recipe){
     if(!recipe.photo){
