@@ -28,12 +28,12 @@ function updateRecipe(id, fields) {
       ...recipe,
       ...fields,
     }
-    database.get("recipes").find({ id }).assign(newRecipe).write()
+    db.get("recipes").find({ id }).assign(newRecipe).write()
     return newRecipe
   }
   
   function removeRecipe(id) {
-    database.get("recipes").remove({ id }).write()
+    db.get("recipes").remove({ id }).write()
   }
 
 module.exports = {
