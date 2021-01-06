@@ -1,6 +1,6 @@
 const Joi = require('joi')
 const {recipes} = require('../../data/recipes.json')
-const {findAllRecipes, findRecipeId, saveRecipe} = require('../model/recipe_model');
+const {findAllRecipes, findRecipeId, saveRecipe, deleteRecipe} = require('../model/recipe_model');
 const PhotoUrl = require ('../services/create_photo');
 
 function getRecipePage({page, size}){
@@ -38,7 +38,7 @@ function removeRecipe(id) {
     if (!recipe) {
       return false
     }
-    removeRecipe(id)
+    deleteRecipe(id)
     return true
   }
 
