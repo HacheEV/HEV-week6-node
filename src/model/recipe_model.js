@@ -8,11 +8,11 @@ const db = low(adapter)
 // Set some defaults (required if your JSON file is empty)
 db.defaults({recipes: []}).write()
 
-function findAllRecipes(){
-    return db.get('recipes').value()
+function findAllRecipes(filter = {}){
+    return db.get('recipes').filter(filter).value()
 }
-function findRecipeId(id){
-    return db.get('recipes').find({id: Number(id)}).value()
+function findRecipeId(filter){
+    return db.get('recipes').find(filter).value()
 }
 function saveRecipe(recipe){
     const recipeID = {
