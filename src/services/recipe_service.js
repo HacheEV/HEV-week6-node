@@ -1,6 +1,5 @@
 const Joi = require('joi')
 const {recipes} = require('../../data/recipes.json')
-const {findAllRecipes, findRecipeId, saveRecipe} = require('../model/recipe_model');
 const PhotoUrl = require ('../services/create_photo');
 const Model = require ('../model/recipe_model');
 
@@ -24,11 +23,17 @@ function getAllRecipes(){
 function getRecipe(id){
     return Model.findRecipeId(id);
 }
+
+function recipeById (id) {
+    const recipe = Service.getRecipe({id});
+    if(!recipe) return "There are no recipe!"
+    return recipe;
+}
 async function createRecipe(recipe){
     if(!recipe.photo){
         recipe.photo = await PhotoUrl.viewPhoto({keywords: recipe.keywords})
     }
-    return saveRecipe(recipe);
+    return Model.saveRecipe(recipe);
    
 }
 
@@ -44,11 +49,24 @@ function validateRecipe(recipe){
     const {error, value} = schema.validate(recipe);
     return {error, value};
 }
+function updateRecipe(id, fields) {
+    return RecipeModel.updateRecipe(id, fields)
+  }
+  
+function removeRecipe(id){
+    const recipe = Service.getRecipe({id});
+    if(!recipe) return false;
+    Model.removeRecipe(id)
+    return true;
+}
 
 module.exports = {
     getAllRecipes,
     getRecipePage, 
     validateRecipe, 
     getRecipe,
-    createRecipe
+    createRecipe,
+    recipeById,
+    removeRecipe,
+    updateRecipe
 };
