@@ -12,7 +12,7 @@ function findAllRecipes(){
     return db.get('recipes').value()
 }
 function findRecipeId(id){
-    return db.get('recipes').find({id}).value()
+    return db.get('recipes').find({id: id}).value()
 }
 function saveRecipe(recipe){
     const recipeID = {
