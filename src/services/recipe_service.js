@@ -30,6 +30,9 @@ async function createRecipe(recipe){
     return saveRecipe(recipe);
    
 }
+function updateRecipe(id, fields) {
+    return updateRecipe(id, fields)
+  }
 function removeRecipe(id) {
     const recipe = findRecipeId({ id })
     if (!recipe) {
@@ -59,5 +62,6 @@ module.exports = {
     validateRecipe, 
     getRecipe,
     createRecipe, 
-    removeRecipe
+    removeRecipe, 
+    updateRecipe
 };

@@ -1,9 +1,8 @@
 const {Router} = require('express')
-const {getAllRecipes, getRecipe, getRecipePage, removeRecipe} = require('../services/recipe_service');
+const {getAllRecipes, getRecipe, getRecipePage,validateRecipe, createRecipe, removeRecipe} = require('../services/recipe_service');
 const validate = require('../middleware/validate.js');
 const pagination = require('../middleware/pagination.js');
-const {validateRecipe} = require('../services/recipe_service');
-const {createRecipe} = require('../services/recipe_service');
+
 const router = Router();
 
 router.get('/', pagination, (req, res) => {
@@ -26,6 +25,10 @@ router.post('/', validate(validateRecipe), (req, res) => {
     
     const recipe = createRecipe(req.body);
     res.status(201).json(recipe);
+})
+router.put("/:id", (req, res) => {
+  const recipe = updateRecipe(req.params.id, req.body)
+  res.status(201).json(recipe)
 })
 router.delete("/:id", (req, res) => {
   const removed = removeRecipe(req.params.id)
