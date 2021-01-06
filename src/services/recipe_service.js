@@ -2,6 +2,7 @@ const Joi = require('joi')
 const {recipes} = require('../../data/recipes.json')
 const {findAllRecipes, findRecipeId, saveRecipe} = require('../model/recipe_model');
 const PhotoUrl = require ('../services/create_photo');
+const Model = require ('../model/recipe_model');
 
 function getRecipePage({page, size}){
     const recipes = findAllRecipes();
@@ -18,10 +19,10 @@ function getRecipePage({page, size}){
 
 }
 function getAllRecipes(){
-    return findAllRecipes();
+    return Model.findAllRecipes();
 }
-async function getRecipe(id){
-    return await findRecipeId(id);
+function getRecipe(id){
+    return Model.findRecipeId(id);
 }
 async function createRecipe(recipe){
     if(!recipe.photo){
