@@ -12,7 +12,7 @@ function findAllRecipes(){
     return db.get('recipes').value()
 }
 function findRecipeId(id){
-    return db.get('recipes').find(id).value()
+    return db.get('recipes').find({id}).value()
 }
 function saveRecipe(recipe){
     const recipeID = {
@@ -32,7 +32,7 @@ function updateRecipe(id, fields) {
     return newRecipe
   }
   
-function removeRecipe(id) {
+function deleteRecipe(id) {
     db.get("recipes").remove({ id }).write()
 }
 
@@ -41,5 +41,5 @@ module.exports = {
     findRecipeId,
     saveRecipe, 
     updateRecipe, 
-    removeRecipe
+    deleteRecipe
 };
