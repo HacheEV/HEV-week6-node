@@ -41,5 +41,6 @@ module.exports = {
     findRecipeId,
     saveRecipe, 
     updateRecipe, 
+    updateRecipe, 
     deleteRecipe
 };

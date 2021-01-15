@@ -1,10 +1,11 @@
 const Joi = require('joi')
-const {recipes} = require('../../data/recipes.json')
-const {findAllRecipes, findRecipeId, saveRecipe, deleteRecipe} = require('../model/recipe_model');
+const {recipes} = require('../../data/recipes.json');
+const { get } = require('../controllers/recipe_controller');
+const Model = require('../model/recipe_model');
 const PhotoUrl = require ('../services/create_photo');
 
 function getRecipePage({page, size}){
-    const recipes = findAllRecipes();
+    const recipes = Model.findAllRecipes();
     const start = (page-1) * size;
     const end = start + size;
 
@@ -14,31 +15,39 @@ function getRecipePage({page, size}){
         return recipes.slice(start, end);
     }
   
-    
-
 }
 function getAllRecipes(){
-    return findAllRecipes();
+    return Model.findAllRecipes();
 }
 function getRecipe(id){
-    return findRecipeId(id);
+    return Model.findRecipeId(id);
+}
+
+function filterByKeywords (keywords){
+    const recipes = getAllRecipes();
+    return recipes.filter(recipe => recipe.keywords.some(keyword => keywords.toLowerCase().includes(keyword)))
+}
+function filterByTitle (title){
+    const recipes = getAllRecipes();
+    return recipes.filter(recipe => recipe.title.toLowerCase().includes(title.toLowerCase()))
 }
 async function createRecipe(recipe){
     if(!recipe.photo){
         recipe.photo = await PhotoUrl.viewPhoto({keywords: recipe.keywords})
     }
-    return saveRecipe(recipe);
+    return Model.saveRecipe(recipe);
    
 }
-function updateRecipe(id, fields) {
-    return updateRecipe(id, fields)
+function putRecipe(id, fields) {
+    return Model.updateRecipe(id, fields)
   }
+  
 function removeRecipe(id) {
-    const recipe = findRecipeId({ id })
+    const recipe = Model.findRecipeId(id)
     if (!recipe) {
       return false
     }
-    deleteRecipe(id)
+    Model.deleteRecipe(id)
     return true
   }
 
@@ -63,5 +72,7 @@ module.exports = {
     getRecipe,
     createRecipe, 
     removeRecipe, 
-    updateRecipe
+    filterByKeywords,
+    filterByTitle, 
+    putRecipe
 };
