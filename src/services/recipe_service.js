@@ -22,11 +22,24 @@ function getAllRecipes(){
 function getRecipe(id){
     return Model.findRecipeId(id);
 }
+function filterAll (keywords, title){
+    let recipes = getAllRecipes();
+    if(keywords){
+       recipes = recipes.filter( recipe => (recipe.keywords.some(keyword => keywords.toLowerCase().includes(keyword))));
+       if(title){
+        return recipes = recipes.filter(recipe => recipe.title.toLowerCase().includes(title.toLowerCase()))
+        }
+    }
+     
+}
 
 function filterByKeywords (keywords){
-    const recipes = getAllRecipes();
-    return recipes.filter(recipe => recipe.keywords.some(keyword => keywords.toLowerCase().includes(keyword)))
+    
+    const recipes = getAllRecipes();    
+    return recipes.filter( recipe => (recipe.keywords.some(keyword => keywords.toLowerCase().includes(keyword))))
+ 
 }
+
 function filterByTitle (title){
     const recipes = getAllRecipes();
     return recipes.filter(recipe => recipe.title.toLowerCase().includes(title.toLowerCase()))
@@ -74,5 +87,6 @@ module.exports = {
     removeRecipe, 
     filterByKeywords,
     filterByTitle, 
+    filterAll,
     putRecipe
 };

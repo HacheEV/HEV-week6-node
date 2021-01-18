@@ -6,23 +6,29 @@ const router = Router();
 
 router.get('/', (req, res) => {
 
+    if(req.query.keywords && req.query.title){
+    
+      const recipes = Service.filterAll(req.query.keywords,req.query.title);
+      res.status(200).json(recipes);
+    }
     if(!req.query.keywords && !req.query.title){
+        
         const recipes = Service.getAllRecipes();
         res.status(200).json(recipes);
     }
     if(req.query.keywords){
-      const recipes = Service.filterByKeywords(req.query.keywords);
-      res.status(200).json(recipes);
+        const recipes = Service.filterByKeywords(req.query.keywords);
+        res.status(200).json(recipes);
     }
     if(req.query.title){
       const recipes = Service.filterByTitle(req.query.title);
       res.status(200).json(recipes);
-        
     }else{
       return res.status(400).json("Sorry something was wrong")
     }
   
 })
+
 router.get('/:id', (req, res) => {
     
     const recipe = Service.getRecipe(req.params.id);
