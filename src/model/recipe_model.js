@@ -11,8 +11,13 @@ db.defaults({recipes: []}).write()
 function findAllRecipes(filter = {}){
     return db.get('recipes').filter(filter).value()
 }
+<<<<<<< HEAD
 function findRecipeId(filter){
     return db.get('recipes').find(filter).value()
+=======
+function findRecipeId(id){
+    return db.get('recipes').find({id}).value()
+>>>>>>> hector
 }
 function saveRecipe(recipe){
     const recipeID = {
@@ -32,14 +37,21 @@ function updateRecipe(id, fields) {
     return newRecipe
   }
   
-  function removeRecipe(id) {
+
+function deleteRecipe(id) {
     db.get("recipes").remove({ id }).write()
-  }
+}
+
 
 module.exports = {
     findAllRecipes,
     findRecipeId,
     saveRecipe, 
     updateRecipe, 
+<<<<<<< HEAD
     removeRecipe
+=======
+    updateRecipe, 
+    deleteRecipe
+>>>>>>> hector
 };

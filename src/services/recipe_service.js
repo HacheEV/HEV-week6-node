@@ -1,21 +1,19 @@
 const Joi = require('joi')
+<<<<<<< HEAD
 const {recipes} = require('../../data/recipes.json')
+=======
+const {recipes} = require('../../data/recipes.json');
+const { get } = require('../controllers/recipe_controller');
+const Model = require('../model/recipe_model');
+>>>>>>> hector
 const PhotoUrl = require ('../services/create_photo');
 const Model = require ('../model/recipe_model');
 
-function getRecipePage({page, size}){
-    const recipes = findAllRecipes();
-    const start = (page-1) * size;
-    const end = start + size;
-
-    if (end > recipes.length){
-        return "There are not recipes in this page"
-    }else{
-        return recipes.slice(start, end);
-    }
+function getRecipesPage({page, size}){
+    const recipes = Model.findAllRecipes();
+    const pageRecipes = recipes.slice(page * size, (page + 1) * size);
+    return pagination(pageRecipes, page, size);
   
-    
-
 }
 function getAllRecipes(){
     return Model.findAllRecipes();
@@ -23,11 +21,44 @@ function getAllRecipes(){
 function getRecipe(id){
     return Model.findRecipeId(id);
 }
+<<<<<<< HEAD
 
 function recipeById (id) {
     const recipe = Service.getRecipe({id});
     if(!recipe) return "There are no recipe!"
     return recipe;
+=======
+function filterAll (keywords, title, page, size){
+    let recipes = getAllRecipes();
+    if(keywords){
+       recipes = recipes.filter( recipe => (recipe.keywords.some(keyword => keywords.toLowerCase().includes(keyword))));
+       if(title){
+        recipes = recipes.filter(recipe => recipe.title.toLowerCase().includes(title.toLowerCase()))
+        return pagination (recipes, page, size);
+        }
+        
+    }
+
+}
+function pagination (data, page, size){
+    const pageRecipes = data.slice(page * size, (page + 1) * size);
+    return {
+        content: pageRecipes, 
+        totalData: pageRecipes.length,
+   };
+}
+
+function filterByKeywords (keywords){
+    
+    const recipes = getAllRecipes();    
+    return recipes.filter( recipe => (recipe.keywords.some(keyword => keywords.toLowerCase().includes(keyword))))
+ 
+}
+
+function filterByTitle (title){
+    const recipes = getAllRecipes();
+    return recipes.filter(recipe => recipe.title.toLowerCase().includes(title.toLowerCase()))
+>>>>>>> hector
 }
 async function createRecipe(recipe){
     if(!recipe.photo){
@@ -36,6 +67,18 @@ async function createRecipe(recipe){
     return Model.saveRecipe(recipe);
    
 }
+function putRecipe(id, fields) {
+    return Model.updateRecipe(id, fields)
+  }
+  
+function removeRecipe(id) {
+    const recipe = Model.findRecipeId(id)
+    if (!recipe) {
+      return false
+    }
+    Model.deleteRecipe(id)
+    return true
+  }
 
 function validateRecipe(recipe){
     
@@ -60,13 +103,23 @@ function removeRecipe(id){
     return true;
 }
 
+
 module.exports = {
     getAllRecipes,
-    getRecipePage, 
+    getRecipesPage, 
     validateRecipe, 
     getRecipe,
+<<<<<<< HEAD
     createRecipe,
     recipeById,
     removeRecipe,
     updateRecipe
+=======
+    createRecipe, 
+    removeRecipe, 
+    filterByKeywords,
+    filterByTitle, 
+    filterAll,
+    putRecipe
+>>>>>>> hector
 };
