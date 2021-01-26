@@ -4,16 +4,10 @@ const { get } = require('../controllers/recipe_controller');
 const Model = require('../model/recipe_model');
 const PhotoUrl = require ('../services/create_photo');
 
-function getRecipePage({page, size}){
+function getRecipesPage({page, size}){
     const recipes = Model.findAllRecipes();
-    const start = (page-1) * size;
-    const end = start + size;
-
-    if (end > recipes.length){
-        return "There are not recipes in this page"
-    }else{
-        return recipes.slice(start, end);
-    }
+    const pageRecipes = recipes.slice(page * size, (page + 1) * size);
+    return pagination(pageRecipes, page, size);
   
 }
 function getAllRecipes(){
@@ -22,15 +16,24 @@ function getAllRecipes(){
 function getRecipe(id){
     return Model.findRecipeId(id);
 }
-function filterAll (keywords, title){
+function filterAll (keywords, title, page, size){
     let recipes = getAllRecipes();
     if(keywords){
        recipes = recipes.filter( recipe => (recipe.keywords.some(keyword => keywords.toLowerCase().includes(keyword))));
        if(title){
-        return recipes = recipes.filter(recipe => recipe.title.toLowerCase().includes(title.toLowerCase()))
+        recipes = recipes.filter(recipe => recipe.title.toLowerCase().includes(title.toLowerCase()))
+        return pagination (recipes, page, size);
         }
+        
     }
-     
+
+}
+function pagination (data, page, size){
+    const pageRecipes = data.slice(page * size, (page + 1) * size);
+    return {
+        content: pageRecipes, 
+        totalData: pageRecipes.length,
+   };
 }
 
 function filterByKeywords (keywords){
@@ -80,7 +83,7 @@ function validateRecipe(recipe){
 
 module.exports = {
     getAllRecipes,
-    getRecipePage, 
+    getRecipesPage, 
     validateRecipe, 
     getRecipe,
     createRecipe, 
